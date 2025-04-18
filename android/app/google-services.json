@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1080941070231",
+    "project_id": "waterme-50caa",
+    "storage_bucket": "waterme-50caa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1080941070231:android:5bdd9880a9987cf808e6d2",
+        "android_client_info": {
+          "package_name": "com.example.waterme"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC68uusEC6Pwh9I-C2Y3KdLER00S24AbZs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

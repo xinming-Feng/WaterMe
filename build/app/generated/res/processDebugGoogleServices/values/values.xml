@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gcm_defaultSenderId" translatable="false">1080941070231</string>
+    <string name="google_api_key" translatable="false">AIzaSyC68uusEC6Pwh9I-C2Y3KdLER00S24AbZs</string>
+    <string name="google_app_id" translatable="false">1:1080941070231:android:5bdd9880a9987cf808e6d2</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyC68uusEC6Pwh9I-C2Y3KdLER00S24AbZs</string>
+    <string name="google_storage_bucket" translatable="false">waterme-50caa.firebasestorage.app</string>
+    <string name="project_id" translatable="false">waterme-50caa</string>
+</resources>
