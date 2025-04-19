@@ -42,8 +42,10 @@ dependencies:
   image_picker: ^1.0.7
   path_provider: ^2.1.2
   firebase_core: ^2.25.4
-  firebase_auth: ^4.17.4
-  cloud_firestore: ^4.15.4
+  firebase_auth: ^4.16.0
+  cloud_firestore: ^4.17.5
+  flutter_native_splash: ^2.4.6
+  mqtt_client: ^10.8.0
 
 dev_dependencies:
   flutter_test:
@@ -77,12 +79,19 @@ flutter:
     - assets/images/nav_data.png
     - assets/images/nav_plants.png
     - assets/images/nav_background.png
+    - assets/images/splash.gif
+    - assets/images/splash.png
     - assets/images/plants/
     - assets/images/plants/pixel_plant_1.png
     - assets/images/plants/pixel_plant_2.png
     - assets/images/plants/pixel_plant_3.png
     - assets/images/plants/pixel_plant_4.png
     - assets/images/plants/pixel_plant_5.png
+    - assets/images/plants/pixel_plant_6.png
+    - assets/images/plants/pixel_plant_7.png
+    - assets/images/plants/pixel_plant_8.png
+    - assets/images/plants/pixel_plant_9.png
+    - assets/images/plants/pixel_plant_10.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

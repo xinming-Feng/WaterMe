@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../services/firebase_service.dart';
 import 'login_page.dart';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyPlantPage extends StatefulWidget {
   const MyPlantPage({super.key});
@@ -19,12 +20,15 @@ class _MyPlantPageState extends State<MyPlantPage> {
   String? _avatarPath;
   String _username = '';
   final ImagePicker _picker = ImagePicker();
+  List<Map<String, dynamic>> _plants = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _loadAvatarPath();
     _loadUsername();
+    _loadPlants();
   }
 
   Future<void> _loadAvatarPath() async {
@@ -47,6 +51,58 @@ class _MyPlantPageState extends State<MyPlantPage> {
       } catch (e) {
         print('Failed to load username: $e');
       }
+    }
+  }
+  
+  // 加载用户植物数据
+  Future<void> _loadPlants() async {
+    if (!FirebaseService.isUserLoggedIn) {
+      setState(() {
+        _isLoading = false;
+      });
+      return;
+    }
+    
+    try {
+      final userId = FirebaseService.currentUser!.uid;
+      final snapshot = await FirebaseService.firestore
+          .collection('users')
+          .doc(userId)
+          .collection('plants')
+          .orderBy('created_at', descending: true)
+          .get();
+          
+      final List<Map<String, dynamic>> plants = [];
+      
+      for (var doc in snapshot.docs) {
+        final data = doc.data();
+        plants.add({
+          'id': doc.id,
+          'name': data['name'] ?? 'Unknown Plant',
+          'species': data['species'] ?? '',
+          'image': data['image'] ?? PlantImages.getRandomPlantImage(),
+          'lastWatered': data['last_watered'] != null 
+              ? DateFormat('yyyy-MM-dd').format((data['last_watered'] as Timestamp).toDate())
+              : DateFormat('yyyy-MM-dd').format(DateTime.now()),
+          'nextWatering': data['next_watering'] != null
+              ? DateFormat('yyyy-MM-dd').format((data['next_watering'] as Timestamp).toDate())
+              : DateFormat('yyyy-MM-dd').format(DateTime.now().add(const Duration(days: 7))),
+          'device_id': data['device_id'] ?? '',
+          'moisture': data['moisture'] ?? 0,
+          'temperature': data['temperature'] ?? 0,
+          'watering_interval': data['watering_interval'] ?? 7,
+        });
+      }
+      
+      setState(() {
+        _plants = plants;
+        _isLoading = false;
+      });
+    } catch (e) {
+      print('加载植物数据失败: $e');
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -122,42 +178,130 @@ class _MyPlantPageState extends State<MyPlantPage> {
     );
   }
 
-  // 模拟植物数据
-  final List<Map<String, dynamic>> plants = [
-    {
-      'name': 'Pothos',
-      'species': 'Epipremnum aureum',
-      'image': PlantImages.getPlantImageByIndex(0),
-      'lastWatered': DateFormat('yyyy-MM-dd').format(DateTime.now()),
-      'nextWatering': '2023-04-20',
-      'health': 'Good',
-    },
-    {
-      'name': 'Succulent',
-      'species': 'Echeveria',
-      'image': PlantImages.getPlantImageByIndex(1),
-      'lastWatered': DateFormat('yyyy-MM-dd').format(DateTime.now()),
-      'nextWatering': '2023-04-25',
-      'health': 'Good',
-    },
-    {
-      'name': 'Cactus',
-      'species': 'Cactaceae',
-      'image': PlantImages.getPlantImageByIndex(2),
-      'lastWatered': DateFormat('yyyy-MM-dd').format(DateTime.now()),
-      'nextWatering': '2023-05-01',
-      'health': 'Needs Attention',
-    },
-  ];
-
-  void updateLastWateredDate(int index) {
-    setState(() {
-      plants[index]['lastWatered'] = DateFormat('yyyy-MM-dd').format(DateTime.now());
-      // 计算下次浇水时间（1天后）
-      plants[index]['nextWatering'] = DateFormat('yyyy-MM-dd').format(
-        DateTime.now().add(const Duration(days: 1)),
+  // 更新最后浇水日期
+  Future<void> updateLastWateredDate(int index) async {
+    final plantId = _plants[index]['id'];
+    final userId = FirebaseService.currentUser!.uid;
+    final now = DateTime.now();
+    
+    // 计算下次浇水日期（基于设置的间隔）
+    final nextWatering = now.add(Duration(days: _plants[index]['watering_interval']));
+    
+    try {
+      // 更新Firebase
+      await FirebaseService.firestore
+          .collection('users')
+          .doc(userId)
+          .collection('plants')
+          .doc(plantId)
+          .update({
+        'last_watered': now,
+        'next_watering': nextWatering,
+      });
+      
+      // 更新本地状态
+      setState(() {
+        _plants[index]['lastWatered'] = DateFormat('yyyy-MM-dd').format(now);
+        _plants[index]['nextWatering'] = DateFormat('yyyy-MM-dd').format(nextWatering);
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('更新浇水记录失败: $e'),
+          backgroundColor: Colors.red,
+        ),
       );
+    }
+  }
+
+  // Delete a plant
+  Future<void> _deletePlant(int index) async {
+    final plantId = _plants[index]['id'];
+    final plantName = _plants[index]['name'];
+    
+    // Show confirmation dialog
+    final bool confirm = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Plant?', style: TextStyle(fontFamily: 'monospace')),
+        content: Text(
+          'Are you sure you want to delete "$plantName"? This action cannot be undone.',
+          style: const TextStyle(fontFamily: 'monospace'),
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.zero,
+          side: const BorderSide(color: Color(0xFF4A8F3C), width: 2),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text(
+              'CANCEL',
+              style: TextStyle(
+                color: Color(0xFF4A8F3C),
+                fontFamily: 'monospace',
+              ),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            ),
+            child: const Text(
+              'DELETE',
+              style: TextStyle(
+                fontFamily: 'monospace',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ) ?? false;
+    
+    if (!confirm) return;
+    
+    setState(() {
+      _isLoading = true;
     });
+    
+    try {
+      final userId = FirebaseService.currentUser!.uid;
+      await FirebaseService.deletePlant(userId, plantId);
+      
+      // Reload plants after deletion
+      await _loadPlants();
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Deleted plant: $plantName',
+            style: const TextStyle(
+              fontFamily: 'monospace',
+              letterSpacing: 1,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          backgroundColor: Colors.red.shade700,
+        ),
+      );
+    } catch (e) {
+      print('Failed to delete plant: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Failed to delete plant: $e',
+            style: const TextStyle(fontFamily: 'monospace'),
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -217,7 +361,7 @@ class _MyPlantPageState extends State<MyPlantPage> {
                         ),
                       ),
                       child: Text(
-                        'Hello, ${_username.isNotEmpty ? _username : "植物爱好者"}',
+                        'Hello, ${_username.isNotEmpty ? _username : "Plant Lover"}',
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -258,152 +402,260 @@ class _MyPlantPageState extends State<MyPlantPage> {
                     ),
                     const SizedBox(height: 20),
                     Expanded(
-                      child: ListView.builder(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        itemCount: plants.length,
-                        itemBuilder: (context, index) {
-                          final plant = plants[index];
-                          return Container(
-                            margin: const EdgeInsets.only(bottom: 16),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.9),
-                              borderRadius: BorderRadius.zero,
-                              border: Border.all(
-                                color: const Color(0xFF4A8F3C),
-                                width: 2,
+                      child: _isLoading
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                                color: Color(0xFF4A8F3C),
                               ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  blurRadius: 4,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 80,
-                                    height: 80,
+                            )
+                          : _plants.isEmpty
+                              ? Center(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(24),
                                     decoration: BoxDecoration(
-                                      color: const Color(0xFFE8F5E9),
+                                      color: Colors.white.withOpacity(0.9),
                                       borderRadius: BorderRadius.zero,
                                       border: Border.all(
                                         color: const Color(0xFF4A8F3C),
                                         width: 2,
                                       ),
                                     ),
-                                    child: Image.asset(
-                                      plant['image'],
-                                      fit: BoxFit.contain,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 16),
-                                  Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Text(
-                                          plant['name'],
-                                          style: const TextStyle(
+                                        Icon(
+                                          Icons.spa,
+                                          size: 80,
+                                          color: const Color(0xFF4A8F3C).withOpacity(0.7),
+                                        ),
+                                        const SizedBox(height: 16),
+                                        const Text(
+                                          'Your plant collection is empty',
+                                          style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold,
                                             color: Color(0xFF2C5530),
                                             fontFamily: 'monospace',
                                           ),
                                         ),
-                                        Text(
-                                          plant['species'],
-                                          style: const TextStyle(
-                                            fontStyle: FontStyle.italic,
-                                            color: Color(0xFF4A3B28),
+                                        const SizedBox(height: 8),
+                                        const Text(
+                                          'Go to Connect page to add your first plant',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Color(0xFF2C5530),
                                             fontFamily: 'monospace',
                                           ),
-                                        ),
-                                        const SizedBox(height: 8),
-                                        Row(
-                                          children: [
-                                            const Icon(
-                                              Icons.water_drop,
-                                              size: 16,
-                                              color: Color(0xFF4A8F3C),
-                                            ),
-                                            const SizedBox(width: 4),
-                                            Text(
-                                              'Last: ${plant['lastWatered']}',
-                                              style: const TextStyle(
-                                                color: Color(0xFF4A3B28),
-                                                fontFamily: 'monospace',
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            const Icon(
-                                              Icons.calendar_today,
-                                              size: 16,
-                                              color: Color(0xFFB87D44),
-                                            ),
-                                            const SizedBox(width: 4),
-                                            Text(
-                                              'Next: ${plant['nextWatering']}',
-                                              style: const TextStyle(
-                                                color: Color(0xFF4A3B28),
-                                                fontFamily: 'monospace',
-                                              ),
-                                            ),
-                                          ],
                                         ),
                                       ],
                                     ),
                                   ),
-                                  Container(
-                                    padding: const EdgeInsets.only(left: 8),
-                                    child: IconButton(
-                                      icon: Container(
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
+                                )
+                              : ListView.builder(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                                  itemCount: _plants.length,
+                                  itemBuilder: (context, index) {
+                                    final plant = _plants[index];
+                                    return Container(
+                                      margin: const EdgeInsets.only(bottom: 16),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.9),
+                                        borderRadius: BorderRadius.zero,
+                                        border: Border.all(
                                           color: const Color(0xFF4A8F3C),
-                                          borderRadius: BorderRadius.zero,
-                                          border: Border.all(
-                                            color: Colors.white,
-                                            width: 2,
-                                          ),
+                                          width: 2,
                                         ),
-                                        child: const Icon(
-                                          Icons.water_drop,
-                                          color: Colors.white,
-                                          size: 28,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black.withOpacity(0.1),
+                                            blurRadius: 4,
+                                            offset: const Offset(0, 2),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                // Plant image
+                                                Container(
+                                                  width: 70,
+                                                  height: 70,
+                                                  decoration: BoxDecoration(
+                                                    color: const Color(0xFFE8F5E9),
+                                                    borderRadius: BorderRadius.zero,
+                                                    border: Border.all(
+                                                      color: const Color(0xFF4A8F3C),
+                                                      width: 2,
+                                                    ),
+                                                  ),
+                                                  child: Image.asset(
+                                                    plant['image'],
+                                                    fit: BoxFit.contain,
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 12),
+                                                // Plant info
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        plant['name'],
+                                                        style: const TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight: FontWeight.bold,
+                                                          color: Color(0xFF2C5530),
+                                                          fontFamily: 'monospace',
+                                                        ),
+                                                      ),
+                                                      if (plant['species'].isNotEmpty)
+                                                        Text(
+                                                          plant['species'],
+                                                          style: const TextStyle(
+                                                            fontSize: 12,
+                                                            fontStyle: FontStyle.italic,
+                                                            color: Color(0xFF4A3B28),
+                                                            fontFamily: 'monospace',
+                                                          ),
+                                                        ),
+                                                      const SizedBox(height: 6),
+                                                      Row(
+                                                        children: [
+                                                          const Icon(
+                                                            Icons.water_drop,
+                                                            size: 14,
+                                                            color: Color(0xFF4A8F3C),
+                                                          ),
+                                                          const SizedBox(width: 4),
+                                                          Text(
+                                                            'Last: ${plant['lastWatered']}',
+                                                            style: const TextStyle(
+                                                              fontSize: 12,
+                                                              color: Color(0xFF4A3B28),
+                                                              fontFamily: 'monospace',
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          const Icon(
+                                                            Icons.calendar_today,
+                                                            size: 14,
+                                                            color: Color(0xFFB87D44),
+                                                          ),
+                                                          const SizedBox(width: 4),
+                                                          Text(
+                                                            'Next: ${plant['nextWatering']}',
+                                                            style: const TextStyle(
+                                                              fontSize: 12,
+                                                              color: Color(0xFF4A3B28),
+                                                              fontFamily: 'monospace',
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      if (plant['device_id'].isNotEmpty)
+                                                        Row(
+                                                          children: [
+                                                            const Icon(
+                                                              Icons.sensors,
+                                                              size: 14,
+                                                              color: Color(0xFF4A8F3C),
+                                                            ),
+                                                            const SizedBox(width: 4),
+                                                            Text(
+                                                              'Moisture: ${plant['moisture']}%',
+                                                              style: const TextStyle(
+                                                                fontSize: 12,
+                                                                color: Color(0xFF4A3B28),
+                                                                fontFamily: 'monospace',
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                // Action buttons
+                                                Row(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    // Water button
+                                                    IconButton(
+                                                      icon: Container(
+                                                        padding: const EdgeInsets.all(8),
+                                                        decoration: BoxDecoration(
+                                                          color: const Color(0xFF4A8F3C),
+                                                          borderRadius: BorderRadius.zero,
+                                                          border: Border.all(
+                                                            color: Colors.white,
+                                                            width: 2,
+                                                          ),
+                                                        ),
+                                                        child: const Icon(
+                                                          Icons.water_drop,
+                                                          color: Colors.white,
+                                                          size: 20,
+                                                        ),
+                                                      ),
+                                                      iconSize: 40,
+                                                      padding: EdgeInsets.zero,
+                                                      onPressed: () {
+                                                        updateLastWateredDate(index);
+                                                        ScaffoldMessenger.of(context).showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
+                                                              'WATERED ${plant['name'].toUpperCase()}',
+                                                              style: const TextStyle(
+                                                                fontFamily: 'monospace',
+                                                                letterSpacing: 1,
+                                                                fontWeight: FontWeight.bold,
+                                                              ),
+                                                            ),
+                                                            backgroundColor: const Color(0xFF4A8F3C),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                    const SizedBox(width: 8),
+                                                    // Delete button
+                                                    IconButton(
+                                                      icon: Container(
+                                                        padding: const EdgeInsets.all(8),
+                                                        decoration: BoxDecoration(
+                                                          color: Colors.red.shade700,
+                                                          borderRadius: BorderRadius.zero,
+                                                          border: Border.all(
+                                                            color: Colors.white,
+                                                            width: 2,
+                                                          ),
+                                                        ),
+                                                        child: const Icon(
+                                                          Icons.delete,
+                                                          color: Colors.white,
+                                                          size: 20,
+                                                        ),
+                                                      ),
+                                                      iconSize: 40,
+                                                      padding: EdgeInsets.zero,
+                                                      onPressed: () => _deletePlant(index),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      iconSize: 52,
-                                      onPressed: () {
-                                        updateLastWateredDate(index);
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              'WATERED ${plants[index]['name'].toUpperCase()}',
-                                              style: const TextStyle(
-                                                fontFamily: 'monospace',
-                                                letterSpacing: 1,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            backgroundColor: const Color(0xFF4A8F3C),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
+                                    );
+                                  },
+                                ),
                     ),
                   ],
                 ),

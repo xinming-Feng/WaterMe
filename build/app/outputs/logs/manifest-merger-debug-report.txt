@@ -79,6 +79,7 @@ INJECTED from /Users/xmf/Desktop/WaterMe/android/app/src/debug/AndroidManifest.x
 MERGED from [:cloud_firestore] /Users/xmf/Desktop/WaterMe/build/cloud_firestore/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-15:12
 MERGED from [:firebase_auth] /Users/xmf/Desktop/WaterMe/build/firebase_auth/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-15:12
 MERGED from [:firebase_core] /Users/xmf/Desktop/WaterMe/build/firebase_core/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-15:12
+MERGED from [:flutter_native_splash] /Users/xmf/Desktop/WaterMe/build/flutter_native_splash/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
 MERGED from [:image_picker_android] /Users/xmf/Desktop/WaterMe/build/image_picker_android/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-34:12
 MERGED from [:flutter_plugin_android_lifecycle] /Users/xmf/Desktop/WaterMe/build/flutter_plugin_android_lifecycle/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
 MERGED from [:path_provider_android] /Users/xmf/Desktop/WaterMe/build/path_provider_android/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
@@ -217,6 +218,8 @@ MERGED from [:firebase_auth] /Users/xmf/Desktop/WaterMe/build/firebase_auth/inte
 MERGED from [:firebase_auth] /Users/xmf/Desktop/WaterMe/build/firebase_auth/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
 MERGED from [:firebase_core] /Users/xmf/Desktop/WaterMe/build/firebase_core/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
 MERGED from [:firebase_core] /Users/xmf/Desktop/WaterMe/build/firebase_core/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+MERGED from [:flutter_native_splash] /Users/xmf/Desktop/WaterMe/build/flutter_native_splash/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+MERGED from [:flutter_native_splash] /Users/xmf/Desktop/WaterMe/build/flutter_native_splash/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
 MERGED from [:image_picker_android] /Users/xmf/Desktop/WaterMe/build/image_picker_android/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:6:5-44
 MERGED from [:image_picker_android] /Users/xmf/Desktop/WaterMe/build/image_picker_android/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:6:5-44
 MERGED from [:flutter_plugin_android_lifecycle] /Users/xmf/Desktop/WaterMe/build/flutter_plugin_android_lifecycle/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44

@@ -7,6 +7,11 @@ class PlantImages {
     'assets/images/plants/pixel_plant_3.png',
     'assets/images/plants/pixel_plant_4.png',
     'assets/images/plants/pixel_plant_5.png',
+    'assets/images/plants/pixel_plant_6.png',
+    'assets/images/plants/pixel_plant_7.png',
+    'assets/images/plants/pixel_plant_8.png',
+    'assets/images/plants/pixel_plant_9.png',
+    'assets/images/plants/pixel_plant_10.png',
     // 后续可以继续添加更多图片路径
   ];
 
@@ -22,5 +27,10 @@ class PlantImages {
       return plantImagePaths[0]; // 默认返回第一张图片
     }
     return plantImagePaths[index];
+  }
+  
+  // 获取植物图片总数
+  static int getPlantImagesCount() {
+    return plantImagePaths.length;
   }
 } 

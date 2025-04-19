@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'main_navigation.dart';
 import 'pages/home_page.dart';
 import 'pages/login_page.dart';
+import 'pages/splash_screen.dart';
 import 'services/firebase_service.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,6 +15,11 @@ void main() async {
       statusBarColor: Colors.transparent,
     ),
   );
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.edgeToEdge,
+    overlays: [SystemUiOverlay.top],
+  );
+  FlutterNativeSplash.remove();
   runApp(const MyApp());
 }
 
@@ -36,9 +43,7 @@ class MyApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      home: FirebaseService.isUserLoggedIn
-          ? const MainNavigation(initialIndex: 0)
-          : const LoginPage(),
+      home: const SplashScreen(),
     );
   }
 }

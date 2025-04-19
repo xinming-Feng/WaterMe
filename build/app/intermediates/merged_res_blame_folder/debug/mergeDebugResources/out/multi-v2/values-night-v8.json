@@ -6,20 +6,20 @@
                 {
                     "source": "/Users/xmf/Desktop/WaterMe/android/app/src/main/res/values-night/styles.xml",
                     "from": {
-                        "startLines": "3,14",
+                        "startLines": "3,18",
                         "startColumns": "4,4",
-                        "startOffsets": "172,817",
-                        "endLines": "7,16",
+                        "startOffsets": "172,1086",
+                        "endLines": "11,20",
                         "endColumns": "12,12",
-                        "endOffsets": "475,981"
+                        "endOffsets": "744,1250"
                     },
                     "to": {
-                        "startLines": "2,6",
+                        "startLines": "2,10",
                         "startColumns": "4,4",
-                        "startOffsets": "55,236",
-                        "endLines": "5,8",
+                        "startOffsets": "55,505",
+                        "endLines": "9,12",
                         "endColumns": "12,12",
-                        "endOffsets": "231,400"
+                        "endOffsets": "500,669"
                     }
                 },
                 {
@@ -32,11 +32,11 @@
                         "endOffsets": "120,204,288,384,486,588,682,771"
                     },
                     "to": {
-                        "startLines": "9,10,11,12,13,14,15,16",
+                        "startLines": "13,14,15,16,17,18,19,20",
                         "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "405,475,559,643,739,841,943,1037",
+                        "startOffsets": "674,744,828,912,1008,1110,1212,1306",
                         "endColumns": "69,83,83,95,101,101,93,88",
-                        "endOffsets": "470,554,638,734,836,938,1032,1121"
+                        "endOffsets": "739,823,907,1003,1105,1207,1301,1390"
                     }
                 }
             ]

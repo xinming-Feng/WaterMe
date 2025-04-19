@@ -51,7 +51,8 @@ com.example.waterme.app-debug-49 /Users/xmf/Desktop/WaterMe/build/app/intermedia
 com.example.waterme.app-debug-50 /Users/xmf/Desktop/WaterMe/build/cloud_firestore/intermediates/packaged_res/debug/packageDebugResources
 com.example.waterme.app-debug-51 /Users/xmf/Desktop/WaterMe/build/firebase_auth/intermediates/packaged_res/debug/packageDebugResources
 com.example.waterme.app-debug-52 /Users/xmf/Desktop/WaterMe/build/firebase_core/intermediates/packaged_res/debug/packageDebugResources
-com.example.waterme.app-debug-53 /Users/xmf/Desktop/WaterMe/build/flutter_plugin_android_lifecycle/intermediates/packaged_res/debug/packageDebugResources
-com.example.waterme.app-debug-54 /Users/xmf/Desktop/WaterMe/build/image_picker_android/intermediates/packaged_res/debug/packageDebugResources
-com.example.waterme.app-debug-55 /Users/xmf/Desktop/WaterMe/build/path_provider_android/intermediates/packaged_res/debug/packageDebugResources
-com.example.waterme.app-debug-56 /Users/xmf/Desktop/WaterMe/build/shared_preferences_android/intermediates/packaged_res/debug/packageDebugResources
+com.example.waterme.app-debug-53 /Users/xmf/Desktop/WaterMe/build/flutter_native_splash/intermediates/packaged_res/debug/packageDebugResources
+com.example.waterme.app-debug-54 /Users/xmf/Desktop/WaterMe/build/flutter_plugin_android_lifecycle/intermediates/packaged_res/debug/packageDebugResources
+com.example.waterme.app-debug-55 /Users/xmf/Desktop/WaterMe/build/image_picker_android/intermediates/packaged_res/debug/packageDebugResources
+com.example.waterme.app-debug-56 /Users/xmf/Desktop/WaterMe/build/path_provider_android/intermediates/packaged_res/debug/packageDebugResources
+com.example.waterme.app-debug-57 /Users/xmf/Desktop/WaterMe/build/shared_preferences_android/intermediates/packaged_res/debug/packageDebugResources
