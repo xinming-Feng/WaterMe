@@ -1,4 +1,4 @@
-#  waterme /Users/xmf/Desktop/WaterMe/assets/images/waterme_title.png
+#  waterme    <img src="assets/images/waterme_title.png" width="200" height="200" alt="WaterMe">
 
 
 
