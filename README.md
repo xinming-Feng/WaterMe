@@ -27,8 +27,8 @@
 
 ## How To Install The App
 ### Dependencies
-dependencies:
-  flutter:
+```
+ flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
   shared_preferences: ^2.2.2
@@ -47,16 +47,24 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^5.0.0
   flutter_launcher_icons: ^0.13.1
+
+```
 ### Android device
 ![291745191590_ pic](https://github.com/user-attachments/assets/7e791c77-396f-49bd-bda1-c9f23e414d23)
+
 √ Click on "Releases" in the upper right corner of the github project's home page, select the latest version and download the**.apk file**, then install it on your Android device to run it.
 
 ### Simulator
 1. Clone the repository
+   
    `git clone https://github.com/yourusername/WaterMe.git`
-2. Install dependencies
+   
+3. Install dependencies
+   
    `flutter pub get`
-3. Run the app
+   
+5. Run the app
+   
    `flutter run`
 
 ## Contact Details
