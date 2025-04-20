@@ -5,6 +5,7 @@ drawable background
 drawable launch_background
 drawable splash
 mipmap ic_launcher
+mipmap launcher_icon
 string gcm_defaultSenderId
 string google_api_key
 string google_app_id

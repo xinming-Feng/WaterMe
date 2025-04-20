@@ -2,7 +2,7 @@
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 3    package="com.example.waterme"
 4    android:versionCode="1"
-5    android:versionName="1.0.0" >
+5    android:versionName="1.3.0" >
 6
 7    <uses-sdk
 8        android:minSdkVersion="21"
@@ -75,7 +75,7 @@
 47-->[androidx.core:core:1.13.1] /Users/xmf/.gradle/caches/8.10.2/transforms/8cf478dec41eed746328fa8046755ba2/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
 48        android:debuggable="true"
 49        android:extractNativeLibs="true"
-50        android:icon="@mipmap/ic_launcher"
+50        android:icon="@mipmap/launcher_icon"
 51        android:label="waterme" >
 52        <activity
 53            android:name="com.example.waterme.MainActivity"

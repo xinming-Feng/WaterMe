@@ -1614,6 +1614,7 @@ com.example.waterme:id/accessibility_custom_action_2 = 0x7f080013
 com.example.waterme:anim/btn_radio_to_off_mtrl_dot_group_animation = 0x7f010012
 com.example.waterme:attr/titleMarginStart = 0x7f030164
 com.example.waterme:styleable/ButtonBarLayout = 0x7f100012
+com.example.waterme:mipmap/launcher_icon = 0x7f0c0001
 com.example.waterme:style/Widget.AppCompat.Light.ActionButton = 0x7f0f0157
 com.example.waterme:id/textSpacerNoButtons = 0x7f0800cf
 com.example.waterme:attr/actionBarStyle = 0x7f030005
