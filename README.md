@@ -52,7 +52,7 @@ dev_dependencies:
 ### Android device
 ![291745191590_ pic](https://github.com/user-attachments/assets/7e791c77-396f-49bd-bda1-c9f23e414d23)
 
-√ Click on "Releases" in the upper right corner of the github project's home page, select the latest version and download the**.apk file**, then install it on your Android device to run it.
+√ Click on "Releases" in the upper right corner of the github project's home page, select the latest version and download the **.apk file**, then install it on your Android device to run it.
 
 ### Simulator
 1. Clone the repository
