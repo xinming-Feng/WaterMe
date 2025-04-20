@@ -1,4 +1,4 @@
-#  waterme    <img src="assets/images/waterme_title.png" width="200" height="200" alt="WaterMe">
+ <img src="assets/images/waterme_title.png" width="20" height="20" alt="WaterMe"> #  waterme
 
 
 
