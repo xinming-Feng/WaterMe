@@ -37,11 +37,10 @@ How to use the physical device :
 
 
 ### APP pages
-| ![371745204149_ pic](https://github.com/.../f48ee91e-...) | ![361745204148_ pic](https://github.com/.../4b32fb02-...) |
-|----------------------------------------------------------|----------------------------------------------------------|
-
-
-
+<div align="center" style="display: flex; gap: 10px; justify-content: center;">
+  <img src="https://github.com/user-attachments/assets/ad7d1e83-4732-4de2-bad3-e0404073a189" width="45%" />
+  <img src="https://github.com/user-attachments/assets/de7c73bf-9631-4554-b3f5-c1a47c92d7e4" width="45%" />
+</div>
 
 ## Demo vedio
 
