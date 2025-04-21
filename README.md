@@ -24,7 +24,7 @@
 ### Physical device
 This app needs to be used in conjunction with physical devices. Physical device is mainly used to detect the moisture of the soil in flowerpots and the indoor air temperature. And publish the data to the mqtt broker via Wi-Fi.
 
-<img src="https://github.com/user-attachments/assets/a0911945-e5b3-48ae-b1e4-d6d450da763f" width="30%" />
+<img src="https://github.com/user-attachments/assets/a0911945-e5b3-48ae-b1e4-d6d450da763f" width="40%" />
 
 This physical device include:
 - ESP-32(MCU)
@@ -32,7 +32,8 @@ This physical device include:
 - DHT22(Temperature sensor)
 
 How to use the physical device :
-<img src="https://github.com/user-attachments/assets/7de8a159-9a18-4e75-8d15-5e5a399a0ac5" width="30%" />
+
+<img src="https://github.com/user-attachments/assets/7de8a159-9a18-4e75-8d15-5e5a399a0ac5" width="40%" />
 
 
 ### APP pages
@@ -52,6 +53,7 @@ How to use the physical device :
 
 
 ## Demo vedio
+[demo](https://www.youtube.com/shorts/FTGF4J2iTr8)
 
 ## How To Install The App
 ### Dependencies
