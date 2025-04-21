@@ -22,7 +22,25 @@
 ![Untitled](https://github.com/user-attachments/assets/170de56a-7cc9-40d4-914f-dc9f5673e51f)
 
 ### Physical device
+This app needs to be used in conjunction with physical devices. Physical device is mainly used to detect the moisture of the soil in flowerpots and the indoor air temperature. And publish the data to the mqtt broker via Wi-Fi.
+
+![431745204916_ pic_hd](https://github.com/user-attachments/assets/a0911945-e5b3-48ae-b1e4-d6d450da763f)
+
+This physical device include:
+- ESP-32(MCU)
+- FC-28(Soil moisture sensor)
+- DHT22(Temperature sensor)
+
+How to use the physical device :
+
+![441745204925_ pic_hd](https://github.com/user-attachments/assets/7de8a159-9a18-4e75-8d15-5e5a399a0ac5)
+
+
 ### APP pages
+|![371745204149_ pic](https://github.com/user-attachments/assets/f48ee91e-88f8-424b-b6ce-b02f9613384d)|![361745204148_ pic](https://github.com/user-attachments/assets/4b32fb02-29be-4a7e-842f-d1234d6adaf5)|
+
+
+
 ## Demo vedio
 
 ## How To Install The App
@@ -57,7 +75,7 @@ dev_dependencies:
 ### Simulator
 1. Clone the repository
    
-   `git clone https://github.com/yourusername/WaterMe.git`
+   `https://github.com/xinming-Feng/WaterMe`
    
 3. Install dependencies
    
