@@ -38,9 +38,18 @@ How to use the physical device :
 
 ### APP pages
 <div align="center" style="display: flex; gap: 10px; justify-content: center;">
-  <img src="https://github.com/user-attachments/assets/ad7d1e83-4732-4de2-bad3-e0404073a189" width="45%" />
-  <img src="https://github.com/user-attachments/assets/de7c73bf-9631-4554-b3f5-c1a47c92d7e4" width="45%" />
+  <img src="https://github.com/user-attachments/assets/ad7d1e83-4732-4de2-bad3-e0404073a189" width="25%" />
+  <img src="https://github.com/user-attachments/assets/de7c73bf-9631-4554-b3f5-c1a47c92d7e4" width="25%" />
 </div>
+<div align="center" style="display: flex; gap: 10px; justify-content: center;">
+  <img src="https://github.com/user-attachments/assets/bf9f21b1-f222-4c1a-8bac-07408a055e4c" width="25%" />
+  <img src="https://github.com/user-attachments/assets/9cbd84df-3b2f-4c54-8e8b-f82af050ee12" width="25%" />
+  <img src="https://github.com/user-attachments/assets/bf7e5593-51b1-4247-8cb1-40b539b606a7" width="25%" />
+  <img src="https://github.com/user-attachments/assets/9cbd84df-3b2f-4c54-8e8b-f82af050ee12" width="25%" />
+  <img src="https://github.com/user-attachments/assets/c66bf42e-68d8-44f5-8f97-e495b7ba5441" width="25%" />
+  
+</div>
+
 
 ## Demo vedio
 
