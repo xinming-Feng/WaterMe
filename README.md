@@ -37,7 +37,9 @@ How to use the physical device :
 
 
 ### APP pages
-|![371745204149_ pic](https://github.com/user-attachments/assets/f48ee91e-88f8-424b-b6ce-b02f9613384d)|![361745204148_ pic](https://github.com/user-attachments/assets/4b32fb02-29be-4a7e-842f-d1234d6adaf5)|
+| ![371745204149_ pic](https://github.com/.../f48ee91e-...) | ![361745204148_ pic](https://github.com/.../4b32fb02-...) |
+|----------------------------------------------------------|----------------------------------------------------------|
+
 
 
 
